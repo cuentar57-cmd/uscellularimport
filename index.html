@@ -213,10 +213,10 @@ q('#year').textContent=new Date().getFullYear();render();renderCart();
 q('#pageDetailBack').onclick=()=>returnToCatalog();
 qa('#navList a, .brand').forEach(a=>a.addEventListener('click',()=>{if(!q('#detailPage').hidden)returnToCatalog(false,false)}));
 window.addEventListener('popstate',()=>{
-  if(location.hash.startsWith('#producto-'))detail(decodeURIComponent(location.hash.slice(9)),false);
+  if(location.hash.startsWith('#producto-'))detail(decodeURIComponent(location.hash.slice('#producto-'.length)),false);
   else if(!q('#detailPage').hidden)returnToCatalog(false,false);
 });
-if(location.hash.startsWith('#producto-'))detail(decodeURIComponent(location.hash.slice(9)),false);
+if(location.hash.startsWith('#producto-'))detail(decodeURIComponent(location.hash.slice('#producto-'.length)),false);
 
 </script>
 </body>
