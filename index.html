@@ -47,6 +47,47 @@ svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-wi
 .detail-stock{font-size:11px!important;margin:0!important;color:var(--muted)}
 .modal.open{animation:detailFade .16s ease-out}
 @keyframes detailFade{from{opacity:0}to{opacity:1}}
+
+/* Vista de detalle de producto, misma navegación interna que iPhone Store Rosario */
+[hidden]{display:none!important}
+.detail-page{background:var(--bg);min-height:90vh;padding:0 0 72px}
+.detail-page-inner{padding:52px 0 0}
+.detail-page-head{text-align:center;margin:0 0 40px}
+.detail-page-head>p:first-child{font-size:10px;font-weight:800;letter-spacing:.17em;color:var(--muted);margin:0 0 13px}
+.detail-page-head h1{font-size:clamp(36px,5.2vw,62px);line-height:1.02;letter-spacing:-.07em;margin:0}
+.detail-page-head h1 span{color:var(--muted)}
+.detail-underline{width:53px;height:3px;border-radius:99px;background:var(--text);margin:18px auto 13px}
+.detail-page-head>p:last-child{color:var(--muted);font-size:13px;margin:0}
+.detail-page-layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(250px,.9fr);gap:28px;align-items:start}
+.detail-product-panel,.detail-purchase-panel{background:var(--card);border:1px solid var(--line);border-radius:20px}
+.detail-product-panel{padding:30px}
+.detail-product-hero{display:flex;align-items:center;gap:28px}
+.detail-product-picture{width:160px;height:170px;flex:0 0 160px;border-radius:16px;background:var(--surface);display:grid;place-items:center;overflow:hidden}
+.detail-product-picture img{max-width:94%;max-height:94%;object-fit:contain;mix-blend-mode:multiply}
+.detail-product-fallback{font-weight:800;font-size:16px;color:var(--muted);text-align:center;padding:12px;letter-spacing:-.04em}
+.detail-product-summary{min-width:0}
+.detail-category{color:var(--muted);font-size:11px;text-transform:uppercase;font-weight:800;letter-spacing:.12em;margin:0 0 9px}
+.detail-product-summary h2{font-size:clamp(25px,3.5vw,43px);letter-spacing:-.065em;line-height:1.03;margin:0 0 10px}
+.detail-product-summary>p:not(.detail-category){color:var(--muted);font-size:12px;line-height:1.6;margin:0}
+.detail-product-price{font-size:20px;font-weight:800;letter-spacing:-.03em;margin-top:15px}
+.detail-product-description{color:var(--muted);font-size:13px;line-height:1.8;margin:25px 0}
+.detail-subtitle{font-size:18px;letter-spacing:-.04em;margin:0 0 14px}
+.detail-spec-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.detail-spec{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px}
+.detail-spec span{display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:7px}
+.detail-spec strong{font-size:13px;font-weight:700}
+.detail-conditions{list-style:none;padding:0;margin:20px 0 0}
+.detail-conditions li{padding:12px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.5}
+.detail-conditions li::before{content:"✓";color:var(--text);margin-right:10px;font-weight:800}
+.detail-purchase-panel{padding:27px;position:sticky;top:95px}
+.detail-purchase-panel h2{font-size:22px;letter-spacing:-.055em;margin:0 0 20px}
+.detail-aside-price{font-size:23px;font-weight:800;letter-spacing:-.045em;margin-bottom:12px}
+.detail-purchase-panel p{font-size:13px;line-height:1.75;color:var(--muted);margin:0 0 20px}
+.detail-full-button{width:100%;display:flex}
+.detail-back-button{display:flex;align-items:center;justify-content:center;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:12px;font-size:12px;font-weight:700;min-height:46px;width:100%;margin-top:10px}
+.detail-back-button:hover{border-color:var(--text);color:var(--text)}
+@media(max-width:850px){.detail-page-layout{grid-template-columns:1fr}.detail-purchase-panel{position:static}}
+@media(max-width:560px){.detail-page-inner{padding-top:36px}.detail-page-head{margin-bottom:29px}.detail-product-panel{padding:18px}.detail-product-hero{flex-direction:column;text-align:center;gap:18px}.detail-product-picture{width:100%;height:210px;flex:none}.detail-product-picture img{height:200px}.detail-spec-grid{grid-template-columns:1fr 1fr;gap:8px}.detail-spec{padding:12px}.detail-purchase-panel{padding:22px}}
 </style>
 </head>
 <body>
@@ -56,7 +97,7 @@ svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-wi
 <nav class="nav-list" id="navList" aria-label="Navegación principal"><a href="#inicio">Inicio</a><a href="#sellados">iPhone sellados</a><a href="#seminuevos">iPhone seminuevos</a><a href="#android">Samsung y Xiaomi</a><a href="#accesorios">Accesorios</a><a href="#contacto">Mayoristas</a></nav>
 <div class="nav-right"><button class="icon-button" id="themeToggle" type="button" title="Cambiar tema" aria-label="Cambiar tema"><svg viewBox="0 0 24 24"><path d="M20.6 13.5A9 9 0 0 1 10.5 3.4 9 9 0 1 0 20.6 13.5Z"/></svg></button><button class="icon-button" id="searchTop" type="button" title="Buscar" aria-label="Buscar productos"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16.2 16.2 4.3 4.3"/></svg></button><button class="icon-button" id="openCart" type="button" aria-label="Abrir carrito"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 10.8h11.2L21 7H6"/><circle cx="9.5" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg><span class="count" id="cartCount">0</span></button><button class="icon-button mobile-menu" id="menuButton" type="button" aria-label="Abrir menú"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
 </div></header>
-<main>
+<main id="storeMain">
 <section class="hero" id="inicio"><div class="container hero-inner"><div class="hero-copy"><p class="eyebrow">US CELLULAR IMPORT · SUDAMÉRICA</p><h1>Importaciones<br>De <span>Telefonía</span><br>Móvil</h1><p class="desc">Catálogo de equipos y tecnología móvil para comercios, revendedores y compradores de Sudamérica. Buscá un modelo y prepará tu consulta comercial.</p><div class="button-row"><a href="#sellados" class="btn btn-primary">Explorar catálogo <svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a><a href="#contacto" class="btn btn-secondary">Ventas mayoristas</a></div></div><div class="hero-art hero-typographic" id="heroArt"><div class="hero-stage"><div class="brand-panel"><div class="panel-top">US CELLULAR IMPORT <span>01 / MOBILE TECHNOLOGY</span></div><div class="panel-middle">US<span>CI</span></div><div class="panel-bottom">IMPORTACIONES DE TELEFONÍA MÓVIL <span>LATAM / 2026</span></div></div></div></div></div></section>
 <div class="quick-strip"><div class="container strip-items"><div><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>Catálogo organizado por categorías</div><div><svg viewBox="0 0 24 24"><path d="M3 8a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="m3 9 9 6 9-6"/></svg>Consultas comerciales directas</div><div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-4 4-4 14 0 18M12 3c4 4 4 14 0 18"/></svg>Enfoque en Sudamérica</div></div></div>
 <section id="sellados" class="section"><div class="container"><div class="section-top"><p class="mini">CATÁLOGO / APPLE</p><h2 id="catalogTitle">iPhone sellados.</h2><p>Modelos nuevos para consultas comerciales. Disponibilidad a confirmar.</p></div><div class="filter-tools"><div class="filters" id="filters"><button class="filter" data-filter="all">Todos</button><button class="filter active" data-filter="sellados">Sellados</button><button class="filter" data-filter="seminuevos">Seminuevos</button><button class="filter" data-filter="android">Samsung y Xiaomi</button><button class="filter" data-filter="accesorios">Accesorios</button></div><label class="search"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16.2 16.2 4.3 4.3"/></svg><input id="searchInput" type="search" placeholder="Buscar un producto..." aria-label="Buscar un producto"></label></div><div class="products-grid" id="catalogGrid"></div><p class="note">Estos son modelos de demostración. No representan el inventario, los precios ni las condiciones reales de US Cellular Import.</p></div></section>
@@ -66,10 +107,51 @@ svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-wi
 <section class="section"><div class="container"><div class="section-top"><p class="mini">EXPLORÁ LA TIENDA</p><h2>Elegí lo que necesitás.</h2><p>Accedé directamente a las categorías principales.</p></div><div class="collection-row"><a class="collection" href="#sellados"><div class="collection-content"><p class="eyebrow">Apple</p><h3>iPhone<br>sellados</h3><span>Ver productos</span></div></a><a class="collection" href="#seminuevos"><div class="collection-content"><p class="eyebrow">Apple</p><h3>iPhone<br>seminuevos</h3><span>Ver productos</span></div></a><a class="collection" href="#android"><div class="collection-content"><p class="eyebrow">Android</p><h3>Samsung<br>y Xiaomi</h3><span>Ver productos</span></div></a></div></div></section>
 <section class="section" id="contacto"><div class="container"><div class="section-top"><p class="mini">CONTÁCTANOS</p><h2>¿Qué equipo estás buscando?</h2><p>Podés preparar una consulta comercial sin comprometer una compra.</p></div><div class="button-row" style="justify-content:center"><button class="btn btn-primary" id="openContact">Hacer una consulta</button><a href="#sellados" class="btn btn-secondary">Volver al catálogo</a></div><div class="coverage"><div><h3>Un sitio pensado para Sudamérica.</h3><p>La versión definitiva podrá incluir información específica por país. El cliente deberá confirmar mercados, logística y condiciones antes de publicarlas.</p></div><select id="marketSelect" aria-label="Seleccionar país"><option value="">Elegí tu país</option><option>Argentina</option><option>Bolivia</option><option>Brasil</option><option>Chile</option><option>Colombia</option><option>Ecuador</option><option>Paraguay</option><option>Perú</option><option>Uruguay</option><option>Venezuela</option><option>Guyana</option><option>Surinam</option></select></div></div></section>
 </main>
+<main class="detail-page" id="detailPage" hidden aria-labelledby="detailPageHeading">
+  <div class="container detail-page-inner">
+    <div class="detail-page-head">
+      <p>US CELLULAR IMPORT / PRODUCTOS</p>
+      <h1 id="detailPageHeading">Detalle del <span>producto.</span></h1>
+      <div class="detail-underline"></div>
+      <p>Conocé el equipo y sus características antes de solicitar una cotización.</p>
+    </div>
+    <div class="detail-page-layout">
+      <section class="detail-product-panel">
+        <div class="detail-product-hero">
+          <div class="detail-product-picture">
+            <img id="pageDetailImage" alt="" loading="lazy">
+            <div id="pageDetailFallback" class="detail-product-fallback" hidden>Imagen no disponible</div>
+          </div>
+          <div class="detail-product-summary">
+            <p id="pageDetailTag" class="detail-category"></p>
+            <h2 id="pageDetailName"></h2>
+            <p id="pageDetailMeta"></p>
+            <div class="detail-product-price">Precio a consultar</div>
+          </div>
+        </div>
+        <p class="detail-product-description" id="pageDetailDescription"></p>
+        <h3 class="detail-subtitle">Características</h3>
+        <div class="detail-spec-grid" id="pageDetailSpecs"></div>
+        <ul class="detail-conditions">
+          <li>Stock y precio final sujetos a confirmación.</li>
+          <li>Consultá colores, capacidades y disponibilidad.</li>
+          <li>Condiciones comerciales acordadas con el importador.</li>
+        </ul>
+      </section>
+      <aside class="detail-purchase-panel">
+        <h2>Consultar este equipo</h2>
+        <div class="detail-aside-price">Precio a consultar</div>
+        <p>Seleccioná este modelo para incluirlo en tu solicitud de cotización.</p>
+        <button class="btn btn-primary detail-full-button" type="button" id="pageDetailAdd">Agregar al carrito</button>
+        <button class="detail-back-button" type="button" id="pageDetailBack">Volver al catálogo</button>
+        <a class="detail-back-button" href="./checkout.html">Ir al checkout</a>
+      </aside>
+    </div>
+  </div>
+</main>
 <footer class="footer"><div class="container"><div class="footer-main"><div><div class="footer-brand">US Cellular Import.</div><p>Importaciones de Telefonía Móvil.<br>Catálogo informativo y consultas comerciales en español.</p></div><div class="footer-links"><a href="#inicio">Inicio</a><a href="#sellados">Catálogo</a><a href="#contacto">Mayoristas</a><a href="#contacto">Contacto</a></div></div><div class="foot-bottom"><span>© <span id="year"></span> US Cellular Import</span><span>Maqueta local · Sin vinculación con el inventario del cliente</span></div></div></footer>
 <div class="overlay" id="overlay"></div>
 <aside class="drawer" id="cartDrawer" aria-label="Carrito de cotización"><div class="drawer-head"><strong>Tu consulta</strong><button type="button" class="icon-button" id="closeCart" aria-label="Cerrar carrito"><svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></svg></button></div><div class="drawer-items" id="cartItems"></div><div class="drawer-footer"><p><strong>Precios:</strong> a cotizar con el importador. Este carrito sirve para preparar la consulta.</p><button class="btn btn-primary" id="checkoutButton">Solicitar cotización</button><button class="btn btn-secondary" id="clearCart">Vaciar carrito</button></div></aside>
-<div class="modal" id="detailModal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Detalle de producto"><div class="modal-window"><div class="modal-head"><h3>Detalles del equipo</h3><button class="icon-button" id="detailClose" aria-label="Cerrar detalle"><svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></svg></button></div><div class="modal-body" id="detailBody"></div></div></div>
 <div class="modal" id="quoteModal" aria-label="Solicitud de cotización"><div class="modal-window"><div class="modal-head"><h3>Consulta comercial</h3><button class="icon-button" id="quoteClose" aria-label="Cerrar formulario"><svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></svg></button></div><form class="modal-body quote-form" id="quoteForm"><label class="field">Nombre y apellido<input id="clientName" required placeholder="Tu nombre"></label><label class="field">Empresa / comercio<input id="clientCompany" placeholder="Nombre del negocio"></label><label class="field">País<select id="clientCountry" required><option value="">Seleccionar país</option><option>Argentina</option><option>Bolivia</option><option>Brasil</option><option>Chile</option><option>Colombia</option><option>Ecuador</option><option>Paraguay</option><option>Perú</option><option>Uruguay</option><option>Venezuela</option><option>Guyana</option><option>Surinam</option><option>Otro</option></select></label><label class="field">WhatsApp o correo<input id="clientContact" required placeholder="Número o correo"></label><label class="field wide">Observaciones<textarea id="clientMessage" placeholder="Modelos y cantidades que necesitás"></textarea></label><div class="field wide"><div class="quote-summary" id="quoteSummary"></div></div><div class="field wide"><button class="btn btn-primary" type="submit">Copiar consulta para enviar</button><p class="quote-hint" id="quoteHint">Esta maqueta no envía mensajes: copiaremos el texto para que puedas probar el proceso. El WhatsApp o correo real se conecta cuando el cliente lo confirme.</p></div></form></div></div>
 <script src="./catalogo.js"></script>
 <script>
@@ -85,19 +167,42 @@ function closeCart(){q('#cartDrawer').classList.remove('open');q('#overlay').cla
 function renderCart(){q('#cartCount').textContent=CART.reduce((a,b)=>a+b.qty,0);q('#cartItems').innerHTML=CART.length?CART.map(it=>`<div class="drawer-item"><div class="drawer-thumb">${it.pic?`<img src="${esc(it.pic)}" alt="" onerror="this.style.display='none'">`:''}</div><div class="drawer-info"><strong>${esc(it.name)}</strong><small>Precio a cotizar</small><div class="quantity"><button data-action="qtyminus" data-id="${esc(it.id)}" aria-label="Quitar una unidad">−</button><span>${it.qty}</span><button data-action="qtyplus" data-id="${esc(it.id)}" aria-label="Agregar una unidad">+</button></div></div><button class="remove" data-action="remove" data-id="${esc(it.id)}" aria-label="Eliminar producto">×</button></div>`).join(''):'<p class="empty-results">Tu carrito está vacío. Agregá equipos para preparar una cotización.</p>'}
 function add(id){const p=P.find(x=>x.id===id);if(!p)return;const item=CART.find(x=>x.id===id);item?item.qty++:CART.push({id:p.id,qty:1});localStorage.setItem('usci-cart-v1',JSON.stringify(CART));location.href='./checkout.html'}
 function qty(id,d){const p=CART.find(x=>x.id===id);if(!p)return;p.qty+=d;if(p.qty<=0)CART=CART.filter(x=>x.id!==id);localStorage.setItem('usci-cart-v1',JSON.stringify(CART));renderCart()}
-function detail(id){
- const p=P.find(x=>x.id===id);if(!p)return;
- q('#detailBody').innerHTML=`<div class="detail-grid"><div class="detail-image">${p.pic?`<img src="${esc(p.pic)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none'">`:`<div class="detail-image-fallback">${esc(p.name)}</div>`}</div><div class="detail-copy"><span class="detail-tag">${esc(p.tag)}</span><h2>${esc(p.name)}</h2><p>${esc(p.desc)}. Consultá capacidades, colores, disponibilidad y condiciones comerciales con la empresa.</p><div class="detail-price">Precio a consultar</div><p class="detail-stock">Stock y precio final sujetos a confirmación.</p><button type="button" class="btn btn-primary" data-action="add" data-id="${esc(p.id)}">Agregar al carrito</button></div></div>`;
- q('#detailModal').classList.add('open');q('#detailModal').setAttribute('aria-hidden','false');
- q('#detailClose').focus();
+let selectedDetailId=null;
+let catalogScrollBeforeDetail=0;
+function detail(id, pushHistory=true){
+  const p=P.find(x=>x.id===id);
+  if(!p)return;
+  if(q('#detailPage').hidden) catalogScrollBeforeDetail=window.scrollY;
+  selectedDetailId=id;
+  q('#pageDetailName').textContent=p.name;
+  q('#pageDetailTag').textContent=p.tag;
+  q('#pageDetailMeta').textContent=p.desc;
+  q('#pageDetailDescription').textContent=p.desc+'. Para conocer las variantes, colores, capacidades y condiciones comerciales, consultá con la empresa.';
+  const img=q('#pageDetailImage'),fallback=q('#pageDetailFallback');
+  img.onload=()=>{img.hidden=false;fallback.hidden=true};
+  img.onerror=()=>{img.hidden=true;fallback.hidden=false;fallback.textContent=p.name};
+  if(p.pic){img.hidden=false;fallback.hidden=true;img.src=p.pic;img.alt=p.name}else{img.hidden=true;fallback.hidden=false;fallback.textContent=p.name;img.removeAttribute('src')}
+  const specs=[['Modelo',p.name],['Categoría',p.tag],['Disponibilidad','A confirmar'],['Precio','A cotizar']];
+  q('#pageDetailSpecs').innerHTML=specs.map(([label,value])=>'<div class="detail-spec"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong></div>').join('');
+  q('#pageDetailAdd').onclick=()=>add(p.id);
+  q('#storeMain').hidden=true;
+  q('#detailPage').hidden=false;
+  if(pushHistory)history.pushState({view:'product',id},'', '#producto-'+encodeURIComponent(id));
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function returnToCatalog(pushHistory=true,restorePosition=true){
+  q('#detailPage').hidden=true;
+  q('#storeMain').hidden=false;
+  selectedDetailId=null;
+  if(pushHistory)history.pushState({view:'catalog'},'','#sellados');
+  requestAnimationFrame(()=>{if(restorePosition)window.scrollTo({top:catalogScrollBeforeDetail,behavior:'instant'});else window.scrollTo({top:0,behavior:'instant'})});
 }
 function closeModal(id){q(id).classList.remove('open');if(id==='#detailModal')q(id).setAttribute('aria-hidden','true')}
 function openQuote(){closeCart();q('#quoteSummary').textContent=CART.length?'Productos seleccionados: '+CART.map(x=>x.name+' × '+x.qty).join(' · '):'Consulta general sobre productos y distribución.';q('#quoteModal').classList.add('open')}
 async function submitQuote(e){e.preventDefault();const data={nombre:q('#clientName').value,empresa:q('#clientCompany').value,pais:q('#clientCountry').value,contacto:q('#clientContact').value,observaciones:q('#clientMessage').value};const msg=`Hola US Cellular Import.\nConsulta: ${CART.length?CART.map(x=>x.name+' x'+x.qty).join('; '):'Información comercial general'}\nNombre: ${data.nombre}\nEmpresa: ${data.empresa||'-'}\nPaís: ${data.pais}\nContacto: ${data.contacto}\nObservaciones: ${data.observaciones||'-'}`;try{await navigator.clipboard.writeText(msg);q('#quoteHint').textContent='Consulta copiada. Podés pegarla en un mensaje. Falta conectar el canal oficial de la empresa.'}catch(err){q('#quoteHint').textContent='No se pudo copiar automáticamente. Revisá los datos del formulario antes de enviarlos.'}}
 q('#filters').addEventListener('click',e=>{const b=e.target.closest('[data-filter]');if(b)setFilter(b.dataset.filter)});q('#searchInput').addEventListener('input',()=>{if(q('#searchInput').value.trim()&&filter!=='all')setFilter('all');else render()});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const{id,action}=b.dataset;if(action==='add')add(id);if(action==='detail')detail(id);if(action==='qtyplus')qty(id,1);if(action==='qtyminus')qty(id,-1);if(action==='remove'){CART=CART.filter(x=>x.id!==id);localStorage.setItem('usci-cart-v1',JSON.stringify(CART));renderCart()}});
-q('#openCart').onclick=openCart;q('#closeCart').onclick=closeCart;q('#overlay').onclick=closeCart;q('#clearCart').onclick=()=>{CART=[];localStorage.setItem('usci-cart-v1','[]');renderCart()};q('#checkoutButton').onclick=()=>{location.href='./checkout.html'};q('#openContact').onclick=openQuote;q('#quoteClose').onclick=()=>closeModal('#quoteModal');q('#detailClose').onclick=()=>closeModal('#detailModal');
-q('#detailModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal('#detailModal')});
+q('#openCart').onclick=openCart;q('#closeCart').onclick=closeCart;q('#overlay').onclick=closeCart;q('#clearCart').onclick=()=>{CART=[];localStorage.setItem('usci-cart-v1','[]');renderCart()};q('#checkoutButton').onclick=()=>{location.href='./checkout.html'};q('#openContact').onclick=openQuote;q('#quoteClose').onclick=()=>closeModal('#quoteModal');
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&q('#detailModal').classList.contains('open'))closeModal('#detailModal')});q('#quoteForm').addEventListener('submit',submitQuote);
 q('#menuButton').onclick=()=>q('#navList').classList.toggle('open');qa('.nav-list a').forEach(a=>a.addEventListener('click',()=>q('#navList').classList.remove('open')));
 q('#searchTop').onclick=()=>{q('#sellados').scrollIntoView({behavior:'smooth'});q('#searchInput').focus({preventScroll:true})};
@@ -105,6 +210,14 @@ q('#marketSelect').addEventListener('change',e=>{q('#clientCountry').value=e.tar
 q('#themeToggle').onclick=()=>{const next=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=next;try{localStorage.setItem('usci-theme',next)}catch(e){}};
 try{const saved=localStorage.getItem('usci-theme');if(saved==='dark')document.documentElement.dataset.theme='dark'}catch(e){}
 q('#year').textContent=new Date().getFullYear();render();renderCart();
+q('#pageDetailBack').onclick=()=>returnToCatalog();
+qa('#navList a, .brand').forEach(a=>a.addEventListener('click',()=>{if(!q('#detailPage').hidden)returnToCatalog(false,false)}));
+window.addEventListener('popstate',()=>{
+  if(location.hash.startsWith('#producto-'))detail(decodeURIComponent(location.hash.slice(9)),false);
+  else if(!q('#detailPage').hidden)returnToCatalog(false,false);
+});
+if(location.hash.startsWith('#producto-'))detail(decodeURIComponent(location.hash.slice(9)),false);
+
 </script>
 </body>
 </html>
