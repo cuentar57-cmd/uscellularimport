@@ -99,7 +99,7 @@ svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-wi
 .catalog-search-tools .search{width:min(100%,355px)}
 @media(max-width:650px){.category-chooser .collection-row{grid-template-columns:1fr}.category-chooser .collection:first-child{grid-column:auto}.category-chooser{padding:50px 0 30px}}
 </style>
-<link rel="stylesheet" href="./premium-motion.css?v=1">
+<link rel="stylesheet" href="./premium-motion.css?v=2">
 </head>
 <body>
 
@@ -130,9 +130,17 @@ svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-wi
     <div class="detail-page-layout">
       <section class="detail-product-panel">
         <div class="detail-product-hero">
-          <div class="detail-product-picture">
-            <img id="pageDetailImage" alt="" loading="lazy">
-            <div id="pageDetailFallback" class="detail-product-fallback" hidden>Imagen no disponible</div>
+          <div class="detail-gallery">
+            <div class="detail-gallery-stage" id="detailGalleryStage">
+              <img id="pageDetailImage" alt="" loading="lazy">
+              <div id="pageDetailFallback" class="detail-gallery-fallback">Imagen no disponible</div>
+              <button class="gallery-nav gallery-prev" id="galleryPrev" type="button" aria-label="Fotografía anterior" hidden><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+              <button class="gallery-nav gallery-next" id="galleryNext" type="button" aria-label="Fotografía siguiente" hidden><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="gallery-zoom" id="galleryZoom" type="button" aria-label="Ampliar fotografía"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5M10.8 7v7.6M7 10.8h7.6"/></svg></button>
+              <span class="gallery-counter" id="galleryCounter" hidden>1 / 1</span>
+            </div>
+            <div class="gallery-thumbnails" id="galleryThumbnails" hidden></div>
+            <p class="gallery-caption" id="galleryCaption">Fotografía del producto</p>
           </div>
           <div class="detail-product-summary">
             <p id="pageDetailTag" class="detail-category"></p>
@@ -176,8 +184,35 @@ function render(){const term=q('#searchInput').value.toLowerCase().trim();const 
 function openCart(){q('#cartDrawer').classList.add('open');q('#overlay').classList.add('open');document.body.style.overflow='hidden'}
 function closeCart(){q('#cartDrawer').classList.remove('open');q('#overlay').classList.remove('open');document.body.style.overflow=''}
 function renderCart(){q('#cartCount').textContent=CART.reduce((a,b)=>a+b.qty,0);q('#cartItems').innerHTML=CART.length?CART.map(it=>`<div class="drawer-item"><div class="drawer-thumb">${it.pic?`<img src="${esc(it.pic)}" alt="" onerror="this.style.display='none'">`:''}</div><div class="drawer-info"><strong>${esc(it.name)}</strong><small>Precio a cotizar</small><div class="quantity"><button data-action="qtyminus" data-id="${esc(it.id)}" aria-label="Quitar una unidad">−</button><span>${it.qty}</span><button data-action="qtyplus" data-id="${esc(it.id)}" aria-label="Agregar una unidad">+</button></div></div><button class="remove" data-action="remove" data-id="${esc(it.id)}" aria-label="Eliminar producto">×</button></div>`).join(''):'<p class="empty-results">Tu carrito está vacío. Agregá equipos para preparar una cotización.</p>'}
-function add(id){const p=P.find(x=>x.id===id);if(!p)return;const item=CART.find(x=>x.id===id);item?item.qty++:CART.push({id:p.id,qty:1});localStorage.setItem('usci-cart-v1',JSON.stringify(CART));location.href='./checkout.html'}
+function add(id){const p=P.find(x=>x.id===id);if(!p)return;const item=CART.find(x=>x.id===id);item?item.qty++:CART.push({id:p.id,qty:1});localStorage.setItem('usci-cart-v1',JSON.stringify(CART));const count=q('#cartCount');if(count){count.classList.remove('usci-cart-bump');void count.offsetWidth;count.classList.add('usci-cart-bump')}renderCart();location.href='./checkout.html'}
 function qty(id,d){const p=CART.find(x=>x.id===id);if(!p)return;p.qty+=d;if(p.qty<=0)CART=CART.filter(x=>x.id!==id);localStorage.setItem('usci-cart-v1',JSON.stringify(CART));renderCart()}
+let galleryItems=[],galleryIndex=0,galleryProductName='';
+function setupGallery(items,name){
+ galleryItems=items.filter(Boolean);galleryIndex=0;galleryProductName=name;
+ const thumbs=q('#galleryThumbnails'),prev=q('#galleryPrev'),next=q('#galleryNext'),zoom=q('#galleryZoom'),caption=q('#galleryCaption'),img=q('#pageDetailImage'),fallback=q('#pageDetailFallback');
+ thumbs.innerHTML='';img.classList.remove('usci-gallery-zoomed','usci-gallery-changing','usci-gallery-ready');
+ if(!galleryItems.length){img.hidden=true;fallback.hidden=false;fallback.textContent=name;prev.hidden=true;next.hidden=true;q('#galleryCounter').hidden=true;zoom.hidden=true;thumbs.hidden=true;caption.textContent='Imagen no disponible';return}
+ fallback.hidden=true;img.hidden=false;zoom.hidden=false;
+ galleryItems.forEach((src,i)=>{const b=document.createElement('button');b.type='button';b.className='gallery-thumb';b.setAttribute('aria-label','Ver fotografía '+(i+1));b.setAttribute('aria-current',i===0?'true':'false');const t=document.createElement('img');t.src=src;t.alt='';b.appendChild(t);b.addEventListener('click',()=>showGalleryImage(i));thumbs.appendChild(b)});
+ const multi=galleryItems.length>1;prev.hidden=!multi;next.hidden=!multi;q('#galleryCounter').hidden=!multi;thumbs.hidden=!multi;caption.textContent=multi?'Seleccioná una vista del producto':'Fotografía ilustrativa del modelo';
+ showGalleryImage(0,false);
+}
+function showGalleryImage(index,animate=true){
+ if(!galleryItems.length)return;
+ galleryIndex=(index+galleryItems.length)%galleryItems.length;
+ const img=q('#pageDetailImage'),fallback=q('#pageDetailFallback');img.classList.remove('usci-gallery-zoomed');fallback.hidden=true;img.hidden=false;
+ const finish=()=>{img.classList.remove('usci-gallery-changing');img.classList.add('usci-gallery-ready')};
+ if(animate){img.classList.remove('usci-gallery-ready');img.classList.add('usci-gallery-changing')}
+ const src=galleryItems[galleryIndex];
+ if(img.getAttribute('src')===src){finish()}else{img.onload=finish;img.onerror=()=>{img.hidden=true;fallback.hidden=false;fallback.textContent=galleryProductName};img.src=src}
+ q('#galleryCounter').textContent=(galleryIndex+1)+' / '+galleryItems.length;
+ q('#galleryThumbnails').querySelectorAll('.gallery-thumb').forEach((b,i)=>b.setAttribute('aria-current',i===galleryIndex?'true':'false'));
+}
+q('#galleryPrev').onclick=()=>showGalleryImage(galleryIndex-1);
+q('#galleryNext').onclick=()=>showGalleryImage(galleryIndex+1);
+q('#galleryZoom').onclick=()=>{const img=q('#pageDetailImage');img.classList.toggle('usci-gallery-zoomed');q('#galleryZoom').setAttribute('aria-label',img.classList.contains('usci-gallery-zoomed')?'Reducir fotografía':'Ampliar fotografía')};
+q('#pageDetailImage').onclick=()=>q('#galleryZoom').click();
+
 let selectedDetailId=null;
 let catalogScrollBeforeDetail=0;
 function detail(id, pushHistory=true){
@@ -190,9 +225,8 @@ function detail(id, pushHistory=true){
   q('#pageDetailMeta').textContent=p.desc;
   q('#pageDetailDescription').textContent=p.desc+'. Para conocer las variantes, colores, capacidades y condiciones comerciales, consultá con la empresa.';
   const img=q('#pageDetailImage'),fallback=q('#pageDetailFallback');
-  img.onload=()=>{img.hidden=false;fallback.hidden=true};
-  img.onerror=()=>{img.hidden=true;fallback.hidden=false;fallback.textContent=p.name};
-  if(p.pic){img.hidden=false;fallback.hidden=true;img.src=p.pic;img.alt=p.name}else{img.hidden=true;fallback.hidden=false;fallback.textContent=p.name;img.removeAttribute('src')}
+  const gallery=Array.isArray(p.gallery)&&p.gallery.length?p.gallery:(p.pic?[p.pic]:[]);
+  setupGallery(gallery,p.name);
   const specs=[['Modelo',p.name],['Categoría',p.tag],['Disponibilidad','A confirmar'],['Precio','A cotizar']];if(p.cat==='seminuevos')specs.push(['Garantía','6 meses']);
   q('#pageDetailSpecs').innerHTML=specs.map(([label,value])=>'<div class="detail-spec"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong></div>').join('');
   q('#pageDetailAdd').onclick=()=>add(p.id);
@@ -230,6 +264,6 @@ window.addEventListener('popstate',()=>{
 if(location.hash.startsWith('#producto-'))detail(decodeURIComponent(location.hash.slice('#producto-'.length)),false);
 
 </script>
-<script src="./premium-motion.js?v=1" defer></script>
+<script src="./premium-motion.js?v=2" defer></script>
 </body>
 </html>
