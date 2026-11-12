@@ -99,6 +99,7 @@ svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-wi
 .catalog-search-tools .search{width:min(100%,355px)}
 @media(max-width:650px){.category-chooser .collection-row{grid-template-columns:1fr}.category-chooser .collection:first-child{grid-column:auto}.category-chooser{padding:50px 0 30px}}
 </style>
+<link rel="stylesheet" href="./premium-motion.css?v=1">
 </head>
 <body>
 
@@ -229,5 +230,6 @@ window.addEventListener('popstate',()=>{
 if(location.hash.startsWith('#producto-'))detail(decodeURIComponent(location.hash.slice('#producto-'.length)),false);
 
 </script>
+<script src="./premium-motion.js?v=1" defer></script>
 </body>
 </html>
