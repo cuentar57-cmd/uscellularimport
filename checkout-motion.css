@@ -1,10 +1,7 @@
-/* Checkout micro-interactions — lightweight and responsive. */
 @media(prefers-reduced-motion:no-preference){
- .header{transition:min-height .3s,box-shadow .3s,background .3s}
- .header.usci-checkout-compact{box-shadow:0 9px 28px rgba(0,0,0,.075)}
+ .header{transition:box-shadow .3s,background .3s}.header.usci-checkout-compact{box-shadow:0 9px 28px rgba(0,0,0,.075)}
  .checkout-head,.checkout-grid>.panel{opacity:0;transform:translateY(22px);transition:opacity .65s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
- .checkout-head.is-visible,.checkout-grid>.panel.is-visible{opacity:1;transform:none}
- .checkout-grid>.panel:nth-child(2){transition-delay:.1s}
+ .checkout-head.is-visible,.checkout-grid>.panel.is-visible{opacity:1;transform:none}.checkout-grid>.panel:nth-child(2){transition-delay:.1s}
  .summary-item{animation:checkout-item-in .32s cubic-bezier(.2,.7,.2,1) both}
  .summary-item button,.btn{transition:transform .22s,background .22s,box-shadow .22s,opacity .22s}
  .summary-item button:active,.btn:active{transform:scale(.97)}
@@ -12,8 +9,7 @@
  .field input:focus,.field select:focus,.field textarea:focus{box-shadow:0 0 0 3px rgba(100,100,110,.11)}
  #result:not([hidden]){animation:checkout-result-in .45s cubic-bezier(.2,.7,.2,1) both}
  #copy.usci-copy-done{background:#26794a;color:white;border-color:#26794a}
- .panel{transition:box-shadow .3s,border-color .3s}
- .panel:hover{box-shadow:0 16px 42px rgba(0,0,0,.045)}
+ .panel{transition:box-shadow .3s,border-color .3s}.panel:hover{box-shadow:0 16px 42px rgba(0,0,0,.045)}
  @keyframes checkout-item-in{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
  @keyframes checkout-result-in{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:none}}
 }
