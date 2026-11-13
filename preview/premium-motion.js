@@ -62,7 +62,7 @@
  function createGSAP(){
   const g=window.gsap;
   g.set([plane,box,loader,dust,gear,trails,shadow,clouds],{clearProps:'all'});
-  g.set(door,{y:0}); // The SVG door starts translated -50, so its parent remains open.
+  g.set(door,{y:-50}); // Maintain the initially open cargo door until the package enters.
   g.set([dust,trails],{opacity:0});
   g.set(progress,{scaleX:0,transformOrigin:'left center'});
   const tl=g.timeline({paused:true,defaults:{overwrite:'auto'},onComplete:()=>setStep(3)});
@@ -71,7 +71,7 @@
     .call(()=>setStep(2),null,2.3)
     .to(box,{x:430,y:-78,duration:0.7,ease:'power2.in'},3.4)
     .to(box,{x:470,y:-82,scale:0.55,opacity:0,duration:0.65,ease:'power2.in'},4.1)
-    .to(door,{y:50,duration:0.75,ease:'power2.inOut'},4.65)
+    .to(door,{y:0,duration:0.75,ease:'power2.inOut'},4.65)
     .to(loader,{x:-100,opacity:0,duration:0.9,ease:'power2.inOut'},5.3)
     .to(plane,{x:55,duration:.7,ease:'sine.inOut'},5.65)
     .to(dust,{opacity:.48,duration:.55,ease:'power1.out'},5.9)
