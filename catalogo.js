@@ -10,3 +10,5 @@ window.USCI_PRODUCTS=[
  {id:'used14',name:'iPhone 14',cat:'seminuevos',tag:'Seminuevos',desc:'6 meses de garantía · Consultar estado y batería',pic:'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-14-finish-select-202209?wid=700&hei=700&fmt=png-alpha'},
 ];
 window.USCI_CART_KEY='usci-cart-v1';
+// Umbral mínimo general para una cotización, sujeto a MOQ por modelo.
+window.USCI_MIN_ORDER_QTY=50;
