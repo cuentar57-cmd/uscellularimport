@@ -39,31 +39,77 @@
 })();
 
 
-/* AIRLIFT — play once when visible, replay on demand; never runs offscreen. */
+
+/* AIRLIFT V2 — GSAP choreography with native fallback and accessible motion preferences. */
 (function(){
  'use strict';
- const section=document.getElementById('usciAirLift');
- const replay=document.getElementById('airliftReplay');
- if(!section||!replay)return;
+ const panel=document.getElementById('usciAirLift'), replay=document.getElementById('airliftReplay');
+ if(!panel||!replay)return;
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
- let started=false;
- function play(){
-  if(reduced.matches)return;
-  section.classList.remove('is-playing');
-  void section.offsetWidth;
-  section.classList.add('is-playing');
-  started=true;
+ const step=panel.querySelector('#airliftStep'),number=step.querySelector('.airlift-step-number'),name=step.querySelector('.airlift-step-name');
+ const legend=Array.from(panel.querySelectorAll('.airlift-legend span'));
+ let played=false, timeline=null, fallbackTimers=[];
+ const plane=panel.querySelector('.airlift-aircraft'), box=panel.querySelector('.airlift-parcel'),door=panel.querySelector('.airlift-cargo-door');
+ const loader=panel.querySelector('.airlift-loader'),dust=panel.querySelector('.airlift-dust'),gear=panel.querySelector('.airlift-wheels');
+ const trails=panel.querySelector('.airlift-contrails'),shadow=panel.querySelector('.airlift-plane-shadow');
+ const progress=panel.querySelector('#airliftProgress'),clouds=panel.querySelector('.airlift-clouds');
+ function setStep(n){
+  number.textContent='0'+n;
+  name.textContent=['Preparando la carga','Ingreso a la bodega','Despegue en curso'][n-1];
+  legend.forEach((el,i)=>el.classList.toggle('is-active',i===n-1));
  }
- replay.addEventListener('click',play);
- if(reduced.matches)return;
- if('IntersectionObserver'in window){
-  const visibility=new IntersectionObserver(entries=>{
-   for(const entry of entries){
-    if(entry.isIntersecting&&!started)play();
-    const animations=section.querySelectorAll('.airlift-plane,.airlift-package,.airlift-jetstream,.airlift-cloud,.airlift-step-label');
-    for(const el of animations){for(const anim of el.getAnimations())anim.playbackRate=1,entry.isIntersecting?anim.play():anim.pause();}
-   }
-  },{threshold:.28});
-  visibility.observe(section);
- }else play();
+ function clearTimers(){fallbackTimers.forEach(clearTimeout);fallbackTimers=[];}
+ function createGSAP(){
+  const g=window.gsap;
+  g.set([plane,box,loader,dust,gear,trails,shadow,clouds],{clearProps:'all'});
+  g.set(door,{y:0}); // The SVG door starts translated -50, so its parent remains open.
+  g.set([dust,trails],{opacity:0});
+  g.set(progress,{scaleX:0,transformOrigin:'left center'});
+  const tl=g.timeline({paused:true,defaults:{overwrite:'auto'},onComplete:()=>setStep(3)});
+  tl.to(box,{x:145,y:-28,duration:1.5,ease:'sine.inOut'},0.4)
+    .to(box,{x:327,y:-62,duration:1.5,ease:'power2.inOut'},1.9)
+    .call(()=>setStep(2),null,2.3)
+    .to(box,{x:430,y:-78,duration:0.7,ease:'power2.in'},3.4)
+    .to(box,{x:470,y:-82,scale:0.55,opacity:0,duration:0.65,ease:'power2.in'},4.1)
+    .to(door,{y:50,duration:0.75,ease:'power2.inOut'},4.65)
+    .to(loader,{x:-100,opacity:0,duration:0.9,ease:'power2.inOut'},5.3)
+    .to(plane,{x:55,duration:.7,ease:'sine.inOut'},5.65)
+    .to(dust,{opacity:.48,duration:.55,ease:'power1.out'},5.9)
+    .call(()=>setStep(3),null,6.1)
+    .to(plane,{x:165,y:-10,rotation:-1.5,duration:1.1,ease:'power2.in'},6.32)
+    .to(trails,{opacity:.65,duration:.5,ease:'power1.in'},6.55)
+    .to(plane,{x:445,y:-148,rotation:-6.5,duration:1.8,ease:'power2.in'},7.4)
+    .to(gear,{y:-15,opacity:0,duration:.6,ease:'power1.in'},8.0)
+    .to(shadow,{opacity:.1,scaleX:.65,duration:1.5,ease:'power1.out'},7.7)
+    .to(dust,{opacity:0,duration:.7,ease:'power1.in'},7.9)
+    .to(plane,{x:1000,y:-445,rotation:-10.5,scale:.85,opacity:0,duration:2.2,ease:'power3.in'},9.2)
+    .to(clouds,{x:-65,duration:11.4,ease:'none'},0)
+    .fromTo(progress,{scaleX:0},{scaleX:1,duration:11.4,ease:'none'},0);
+  return tl;
+ }
+ function start(){
+  if(reduced.matches)return;
+  played=true;setStep(1);clearTimers();
+  if(window.gsap){
+   panel.classList.remove('is-fallback');
+   if(timeline){timeline.pause(0);timeline.kill()}
+   timeline=createGSAP();timeline.restart();
+  }else{
+   panel.classList.remove('is-fallback');
+   void panel.offsetWidth;panel.classList.add('is-fallback');
+   fallbackTimers.push(setTimeout(()=>setStep(2),2600));
+   fallbackTimers.push(setTimeout(()=>setStep(3),6800));
+  }
+ }
+ if(reduced.matches){replay.hidden=true;setStep(1);return;}
+ replay.addEventListener('click',start);
+ if(window.gsap&&window.ScrollTrigger){
+  window.gsap.registerPlugin(window.ScrollTrigger);
+  window.ScrollTrigger.create({trigger:panel,start:'top 76%',once:true,onEnter:()=>{if(!played)start()}});
+ }else if('IntersectionObserver'in window){
+  const io=new IntersectionObserver(entries=>{
+   if(entries.some(e=>e.isIntersecting)){io.disconnect();if(!played)start()}
+  },{threshold:.17});
+  io.observe(panel);
+ }else start();
 })();
