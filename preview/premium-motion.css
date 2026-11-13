@@ -88,3 +88,83 @@
  .usci-scroll-progress { display:none; }
  .hero-art {transform:none!important}
 }
+
+
+/* AIRLIFT — editorial logistics animation, illustrative only. */
+.usci-airlift-section{padding:64px 0 80px;background:var(--bg)}
+.airlift-panel{border-radius:28px;background:#0D1320;color:#F4F7FC;overflow:hidden;border:1px solid #263348;box-shadow:0 28px 72px rgba(10,19,31,.16)}
+.airlift-top{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;padding:44px 48px 14px;position:relative;z-index:2}
+.airlift-titles{max-width:700px}
+.airlift-kicker{display:flex;gap:10px;align-items:center;font-size:10px;font-weight:800;letter-spacing:.2em;color:#9FB5D3;margin:0 0 19px}
+.airlift-kicker-dot{height:7px;width:7px;background:#7CA7E7;border-radius:50%;box-shadow:0 0 14px rgba(124,167,231,.5)}
+.airlift-titles h2{font-size:clamp(29px,4.7vw,57px);letter-spacing:-.07em;line-height:1.05;font-weight:800;margin:0 0 16px}
+.airlift-titles h2 em{font-style:normal;color:#8EACD1}
+.airlift-titles>p:last-child{color:#AAB7CB;max-width:580px;font-size:13px;line-height:1.75;margin:0}
+.airlift-replay{flex-shrink:0;display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.065);color:#EAF1FC;border:1px solid rgba(175,195,224,.26);border-radius:99px;font-size:11px;font-weight:800;padding:12px 17px;white-space:nowrap;transition:border-color .25s,background .25s,transform .25s}
+.airlift-replay svg{height:16px;width:16px;stroke-width:2}
+.airlift-replay:hover{background:rgba(255,255,255,.12);border-color:#8EACD1;transform:translateY(-2px)}
+.airlift-scene{position:relative;width:100%;aspect-ratio:1080 / 415;min-height:240px;overflow:hidden;background:radial-gradient(ellipse at 65% 105%,rgba(47,79,122,.4),transparent 61%),#0D1320}
+.airlift-scene-grid{position:absolute;inset:0;background-image:linear-gradient(90deg,transparent 97%,rgba(110,137,172,.08) 100%),linear-gradient(0deg,transparent 96%,rgba(110,137,172,.07) 100%);background-size:92px 92px;mask-image:linear-gradient(0deg,#000,transparent 94%);pointer-events:none}
+.airlift-art{display:block;position:absolute;width:100%;height:100%;inset:0;overflow:visible}
+.airlift-plane{transform-origin:740px 277px;transform-box:view-box}
+.airlift-package{transform-origin:26px 23px;transform-box:view-box}
+.airlift-cloud{transform:translate3d(0,0,0)}
+.airlift-jetstream{opacity:0}
+.airlift-step-label{position:absolute;bottom:14px;font-size:10px;letter-spacing:.12em;font-weight:750;color:#98AFCF;display:flex;gap:9px;align-items:center}
+.airlift-step-label span{color:#F2F6FC;border:1px solid #526A8D;border-radius:6px;min-width:27px;line-height:24px;text-align:center;font-size:10px;letter-spacing:0}
+.airlift-step-one{left:5%}.airlift-step-two{left:42%}.airlift-step-three{right:6%}
+.airlift-footer{padding:18px 48px 21px;border-top:1px solid rgba(159,181,211,.14);display:flex;justify-content:space-between;gap:16px;color:#728AA9;font-size:9px;letter-spacing:.14em;font-weight:700}
+@media(prefers-reduced-motion:no-preference){
+ .usci-airlift-section.is-playing .airlift-plane{animation:airlift-takeoff 10.5s cubic-bezier(.45,.03,.22,1) both}
+ .usci-airlift-section.is-playing .airlift-package{animation:airlift-load 10.5s cubic-bezier(.45,.03,.25,1) both}
+ .usci-airlift-section.is-playing .airlift-jetstream{animation:airlift-trail 10.5s linear both}
+ .usci-airlift-section.is-playing .airlift-cloud{animation:airlift-cloud-drift 10.5s ease-out both}
+ .usci-airlift-section.is-playing .airlift-step-one{animation:airlift-step-one 10.5s ease both}
+ .usci-airlift-section.is-playing .airlift-step-two{animation:airlift-step-two 10.5s ease both}
+ .usci-airlift-section.is-playing .airlift-step-three{animation:airlift-step-three 10.5s ease both}
+ @keyframes airlift-load{
+  0%,10%{transform:translate(0,0) scale(1);opacity:1}
+  21%{transform:translate(125px,-18px) scale(.99);opacity:1}
+  31%{transform:translate(256px,-35px) scale(.92);opacity:1}
+  42%{transform:translate(400px,-52px) scale(.8);opacity:1}
+  46%,100%{transform:translate(420px,-55px) scale(.62);opacity:0}
+ }
+ @keyframes airlift-takeoff{
+  0%,47%{transform:translate(0,0) rotate(0);opacity:1}
+  54%{transform:translate(25px,-6px) rotate(-1deg);opacity:1}
+  65%{transform:translate(145px,-65px) rotate(-5deg);opacity:1}
+  82%{transform:translate(405px,-180px) rotate(-8deg);opacity:1}
+  99%,100%{transform:translate(855px,-405px) rotate(-11deg) scale(.82);opacity:0}
+ }
+ @keyframes airlift-trail{0%,55%{opacity:0;transform:translate(0,0)}66%{opacity:.52;transform:translate(10px,-7px)}80%{opacity:.32;transform:translate(150px,-80px)}100%{opacity:0;transform:translate(250px,-140px)}}
+ @keyframes airlift-cloud-drift{0%{transform:translateX(0)}100%{transform:translateX(-44px)}}
+ @keyframes airlift-step-one{0%,20%{color:#F5F8FC}28%,100%{color:#8398B5}}
+ @keyframes airlift-step-two{0%,20%{color:#8398B5}28%,50%{color:#F5F8FC}60%,100%{color:#8398B5}}
+ @keyframes airlift-step-three{0%,55%{color:#8398B5}62%,100%{color:#F5F8FC}}
+}
+@media(max-width:820px){
+ .airlift-top{padding:31px 28px 13px;align-items:flex-start;flex-direction:column;gap:20px}
+ .airlift-scene{height:255px;aspect-ratio:auto;min-height:255px}
+ .airlift-art{width:144%;height:100%;max-width:none;left:-22%}
+ .airlift-footer{padding:17px 26px 20px;flex-wrap:wrap;line-height:1.6}
+ .airlift-step-label{font-size:9px;gap:5px}
+ .airlift-step-one{left:4%}.airlift-step-two{left:40%}.airlift-step-three{right:4%}
+}
+@media(max-width:540px){
+ .usci-airlift-section{padding:48px 0 56px}
+ .airlift-panel{border-radius:19px}
+ .airlift-top{padding:30px 22px 8px;gap:19px}
+ .airlift-titles>p:last-child{font-size:12px}
+ .airlift-titles h2{font-size:clamp(28px,8.5vw,37px)}
+ .airlift-replay{min-height:42px}
+ .airlift-scene{height:227px;min-height:227px}
+ .airlift-art{width:180%;left:-36%}
+ .airlift-step-label{bottom:11px;letter-spacing:.05em;font-size:8px}
+ .airlift-step-label span{min-width:23px;line-height:21px;font-size:9px}
+ .airlift-footer{padding:13px 22px 18px;font-size:8px;letter-spacing:.08em}
+ .airlift-footer span:last-child{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .airlift-replay{display:none}
+ .airlift-step-label{color:#AEBFDA}
+}
