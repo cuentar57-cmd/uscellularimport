@@ -37,3 +37,33 @@
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
+
+
+/* AIRLIFT — play once when visible, replay on demand; never runs offscreen. */
+(function(){
+ 'use strict';
+ const section=document.getElementById('usciAirLift');
+ const replay=document.getElementById('airliftReplay');
+ if(!section||!replay)return;
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+ let started=false;
+ function play(){
+  if(reduced.matches)return;
+  section.classList.remove('is-playing');
+  void section.offsetWidth;
+  section.classList.add('is-playing');
+  started=true;
+ }
+ replay.addEventListener('click',play);
+ if(reduced.matches)return;
+ if('IntersectionObserver'in window){
+  const visibility=new IntersectionObserver(entries=>{
+   for(const entry of entries){
+    if(entry.isIntersecting&&!started)play();
+    const animations=section.querySelectorAll('.airlift-plane,.airlift-package,.airlift-jetstream,.airlift-cloud,.airlift-step-label');
+    for(const el of animations){for(const anim of el.getAnimations())anim.playbackRate=1,entry.isIntersecting?anim.play():anim.pause();}
+   }
+  },{threshold:.28});
+  visibility.observe(section);
+ }else play();
+})();
