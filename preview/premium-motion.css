@@ -115,13 +115,13 @@
 .airlift-step-one{left:5%}.airlift-step-two{left:42%}.airlift-step-three{right:6%}
 .airlift-footer{padding:18px 48px 21px;border-top:1px solid rgba(159,181,211,.14);display:flex;justify-content:space-between;gap:16px;color:#728AA9;font-size:9px;letter-spacing:.14em;font-weight:700}
 @media(prefers-reduced-motion:no-preference){
- .usci-airlift-section.is-playing .airlift-plane{animation:airlift-takeoff 10.5s cubic-bezier(.45,.03,.22,1) both}
- .usci-airlift-section.is-playing .airlift-package{animation:airlift-load 10.5s cubic-bezier(.45,.03,.25,1) both}
- .usci-airlift-section.is-playing .airlift-jetstream{animation:airlift-trail 10.5s linear both}
- .usci-airlift-section.is-playing .airlift-cloud{animation:airlift-cloud-drift 10.5s ease-out both}
- .usci-airlift-section.is-playing .airlift-step-one{animation:airlift-step-one 10.5s ease both}
- .usci-airlift-section.is-playing .airlift-step-two{animation:airlift-step-two 10.5s ease both}
- .usci-airlift-section.is-playing .airlift-step-three{animation:airlift-step-three 10.5s ease both}
+ .airlift-panel.is-playing .airlift-plane{animation:airlift-takeoff 10.5s cubic-bezier(.45,.03,.22,1) both}
+ .airlift-panel.is-playing .airlift-package{animation:airlift-load 10.5s cubic-bezier(.45,.03,.25,1) both}
+ .airlift-panel.is-playing .airlift-jetstream{animation:airlift-trail 10.5s linear both}
+ .airlift-panel.is-playing .airlift-cloud{animation:airlift-cloud-drift 10.5s ease-out both}
+ .airlift-panel.is-playing .airlift-step-one{animation:airlift-step-one 10.5s ease both}
+ .airlift-panel.is-playing .airlift-step-two{animation:airlift-step-two 10.5s ease both}
+ .airlift-panel.is-playing .airlift-step-three{animation:airlift-step-three 10.5s ease both}
  @keyframes airlift-load{
   0%,10%{transform:translate(0,0) scale(1);opacity:1}
   21%{transform:translate(125px,-18px) scale(.99);opacity:1}
