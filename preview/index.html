@@ -120,7 +120,33 @@ svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-wi
 </style>
 <link rel="stylesheet" href="./premium-motion.css?v=5">
 <link rel="stylesheet" href="./flight-animation.css?v=1">
-<style>.brand{display:flex;align-items:center;gap:12px;flex:none;min-width:0}.brand-logo-img{display:block;width:auto;height:34px;max-width:210px;object-fit:contain}.brand-copy{display:none}@media(max-width:540px){.brand-logo-img{height:28px;max-width:160px}}</style>
+<style>.brand{display:flex;align-items:center;gap:12px;flex:none;min-width:0}.brand-logo-img{display:block;width:auto;height:34px;max-width:210px;object-fit:contain}.brand-copy{display:none}@media(max-width:540px){.brand-logo-img{height:28px;max-width:160px}}
+/* Category cards follow the selected light/dark theme */
+:root{
+ --category-card-one:linear-gradient(135deg,#dedee1 0%,#f2f2f4 100%);
+ --category-card-two:linear-gradient(135deg,#eeeeF0 0%,#d8d8dd 100%);
+ --category-card-ring:rgba(255,255,255,.38);
+}
+html[data-theme="dark"]{
+ --category-card-one:linear-gradient(135deg,#202126 0%,#30323a 100%);
+ --category-card-two:linear-gradient(135deg,#292c34 0%,#1b1d23 100%);
+ --category-card-ring:rgba(255,255,255,.075);
+}
+.category-chooser .collection{
+ color:var(--text);
+ border:1px solid var(--line);
+ background:var(--category-card-one);
+ transition:background .25s ease,border-color .25s ease,color .25s ease,transform .2s ease,box-shadow .25s ease;
+}
+.category-chooser .collection:first-child{background:var(--category-card-one)}
+.category-chooser .collection:nth-child(2){background:var(--category-card-two)}
+.category-chooser .collection:before{border-color:var(--category-card-ring)}
+.category-chooser .collection .eyebrow{color:var(--muted)}
+.category-chooser .collection h3{color:var(--text)}
+.category-chooser .collection span{color:var(--text);border-color:currentColor}
+.category-chooser .collection:hover{border-color:var(--muted);box-shadow:var(--shadow)}
+
+</style>
 <link rel="stylesheet" href="./country-language.css?v=1">
 <script>try{document.documentElement.dataset.usciCountry=localStorage.getItem('usci-country-v1')||''}catch(e){document.documentElement.dataset.usciCountry='';}</script>
 </head>
