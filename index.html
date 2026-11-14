@@ -117,6 +117,30 @@ svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-wi
 @media(hover:hover){.usci-flags-viewport:hover .usci-flags-track{animation-play-state:paused}}
 @media(max-width:650px){.usci-flags-bar,.usci-flags-label{min-height:43px;max-height:43px;height:43px}.usci-flags-label{flex-basis:103px;width:103px;padding:7px 9px;gap:6px}.usci-flags-label strong{font-size:9px}.usci-flags-set{gap:19px;padding-right:19px}.usci-marquee-flag{width:24px;height:18px}.usci-marquee-name{font-size:10px}.usci-flags-track{animation-duration:32s}}
 @media(prefers-reduced-motion:reduce){.usci-flags-track{animation:none;will-change:auto}.usci-flags-viewport{overflow-x:auto;-webkit-mask-image:none;mask-image:none}.usci-flags-set[aria-hidden=true]{display:none}}
+/* Category cards follow the selected light/dark theme */
+:root{
+ --category-card-one:linear-gradient(135deg,#dedee1 0%,#f2f2f4 100%);
+ --category-card-two:linear-gradient(135deg,#eeeeF0 0%,#d8d8dd 100%);
+ --category-card-ring:rgba(255,255,255,.38);
+}
+html[data-theme="dark"]{
+ --category-card-one:linear-gradient(135deg,#202126 0%,#30323a 100%);
+ --category-card-two:linear-gradient(135deg,#292c34 0%,#1b1d23 100%);
+ --category-card-ring:rgba(255,255,255,.075);
+}
+.category-chooser .collection{
+ color:var(--text);
+ border:1px solid var(--line);
+ background:var(--category-card-one);
+ transition:background .25s ease,border-color .25s ease,color .25s ease,transform .2s ease,box-shadow .25s ease;
+}
+.category-chooser .collection:first-child{background:var(--category-card-one)}
+.category-chooser .collection:nth-child(2){background:var(--category-card-two)}
+.category-chooser .collection:before{border-color:var(--category-card-ring)}
+.category-chooser .collection .eyebrow{color:var(--muted)}
+.category-chooser .collection h3{color:var(--text)}
+.category-chooser .collection span{color:var(--text);border-color:currentColor}
+.category-chooser .collection:hover{border-color:var(--muted);box-shadow:var(--shadow)}
 </style>
 <link rel="stylesheet" href="./premium-motion.css?v=5">
 <link rel="stylesheet" href="./flight-animation.css?v=1">
